@@ -1,6 +1,6 @@
-# About The Holla App React Native
+# About The Homemie App React Native
 
-# 📝 Holla App React Native
+# 📝 Homemie App React Native
 
 <!-- GETTING STARTED -->
 
@@ -23,8 +23,8 @@ Before running the project, ensure you have the following installed:
 
 #### 1️⃣ Clone the project from GitHub
 ```sh
-git clone https://github.com/minhvh5504/Holla-app-fontend.git
-cd Holla-app-fontend
+git clone https://github.com/minhvh5504/Homemie.git
+cd Homemie
 ```
 #### 2️⃣ Install dependencies
 ```sh
