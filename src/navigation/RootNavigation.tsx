@@ -5,37 +5,53 @@ import LoginScreen from '@views/LoginScreen'
 import RegisterScreen from '@views/RegisterScreen'
 import { useEffect, useState } from 'react'
 
+import { AuthProvider, useAuth } from '../contexts/AuthContext'
 import DrawerNavigation from './DrawerNavigation'
 
 const Stack = createNativeStackNavigator()
 
-const RootStack = () => {
+const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Loading" component={LoadingScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const AppStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeDrawer" component={DrawerNavigation} />
     </Stack.Navigator>
   )
 }
 
 function Navigation() {
-  const [showLoading, setShowLoading] = useState(true)
+  const { isAuthenticated, isLoading } = useAuth()
+  const [showSplash, setShowSplash] = useState(true)
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowLoading(false)
-    }, 3000)
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
   }, [])
 
-  return showLoading ? <LoadingScreen /> : <RootStack />
+  if (showSplash || isLoading) {
+    return <LoadingScreen />
+  }
+
+  return isAuthenticated ? <AppStack /> : <AuthStack />
 }
 
 export default function RootNavigation() {
   return (
-    <NavigationContainer>
-      <Navigation />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <Navigation />
+      </NavigationContainer>
+    </AuthProvider>
   )
 }
